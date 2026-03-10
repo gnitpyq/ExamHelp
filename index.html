@@ -38,13 +38,14 @@
         }
 
         .bg-phrase {
-            position: absolute;
-            color: rgba(46, 160, 67, 0.15); /* Faint hacker green */
-            font-family: 'Fira Code', monospace;
-            white-space: nowrap;
-            user-select: none;
-            animation: driftUp linear forwards;
-        }
+    position: absolute;
+    color: rgba(46, 160, 67, 0.6); /* Brighter hacker green */
+    text-shadow: 0 0 5px rgba(46, 160, 67, 0.4); /* Adds a subtle glow */
+    font-family: 'Fira Code', monospace;
+    white-space: nowrap;
+    user-select: none;
+    animation: driftUp linear forwards;
+}
 
         @keyframes driftUp {
             0% { transform: translateY(110vh); opacity: 0; }
@@ -245,7 +246,7 @@
             // Randomize position, size, and speed
             el.style.left = `${Math.random() * 90}vw`;
             el.style.fontSize = `${Math.random() * 0.8 + 0.8}rem`; // 0.8rem to 1.6rem
-            el.style.opacity = Math.random() * 0.3 + 0.1; // 0.1 to 0.4
+            el.style.opacity = Math.random() * 0.5 + 0.3; // 0.3 to 0.8
             
             const duration = Math.random() * 15 + 10; // 10s to 25s
             el.style.animationDuration = `${duration}s`;
