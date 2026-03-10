@@ -26,33 +26,44 @@
             position: relative;
         }
 
-        /* Animated Background Elements */
-        .bg-element {
+        /* Animated Funny Background Text */
+        #bg-container {
             position: absolute;
-            color: rgba(46, 160, 67, 0.1);
-            font-family: 'Fira Code', monospace;
-            font-size: 2rem;
-            animation: float 10s infinite linear;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 0;
+            pointer-events: none;
         }
 
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+        .bg-phrase {
+            position: absolute;
+            color: rgba(46, 160, 67, 0.15); /* Faint hacker green */
+            font-family: 'Fira Code', monospace;
+            white-space: nowrap;
+            user-select: none;
+            animation: driftUp linear forwards;
+        }
+
+        @keyframes driftUp {
+            0% { transform: translateY(110vh); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-10vh); opacity: 0; }
         }
 
+        /* Main Container */
         .container {
             z-index: 1;
             text-align: center;
             max-width: 800px;
-            padding: 2rem;
-            background: rgba(22, 27, 34, 0.8);
-            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            background: rgba(22, 27, 34, 0.85);
+            backdrop-filter: blur(12px);
             border-radius: 20px;
             border: 1px solid #30363d;
-            box-shadow: 0 0 30px rgba(46, 160, 67, 0.2);
+            box-shadow: 0 0 40px rgba(46, 160, 67, 0.15);
             animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
@@ -63,17 +74,17 @@
 
         h1 {
             font-family: 'Fira Code', monospace;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: #ff7b72;
             margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(255, 123, 114, 0.5);
+            text-shadow: 0 0 15px rgba(255, 123, 114, 0.4);
         }
 
         .status {
             display: inline-block;
             background: #ff7b72;
             color: #0d1117;
-            padding: 0.3rem 1rem;
+            padding: 0.4rem 1.2rem;
             border-radius: 50px;
             font-weight: bold;
             font-size: 0.9rem;
@@ -101,12 +112,15 @@
             padding: 1.5rem;
             border-radius: 15px;
             border: 1px solid #30363d;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
             border-color: #2ea043;
+            box-shadow: 0 10px 20px rgba(46, 160, 67, 0.1);
         }
 
         .stat-number {
@@ -128,15 +142,19 @@
             font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 2rem;
-            min-height: 80px; /* Prevents layout shift during typing */
+            min-height: 100px; /* Prevents layout shift */
             color: #c9d1d9;
+            text-align: center;
         }
 
         .reopen-badge {
             font-family: 'Fira Code', monospace;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #2ea043;
-            text-shadow: 0 0 10px rgba(46, 160, 67, 0.5);
+            background: rgba(46, 160, 67, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px dashed #2ea043;
         }
 
         .cursor {
@@ -154,11 +172,11 @@
             50% { opacity: 0; }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            h1 { font-size: 1.8rem; }
+            h1 { font-size: 2rem; }
         }
     </style>
 </head>
@@ -168,7 +186,7 @@
     <div id="bg-container"></div>
 
     <div class="container">
-        <div class="status">System Offline</div>
+        <div class="status">Vault Offline</div>
         <h1>rebrand.ly/examhelp</h1>
         
         <div class="stats-grid">
@@ -178,7 +196,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-number" data-target="10">0</div>
-                <div class="stat-label">Students Saved</div>
+                <div class="stat-label">Grades Saved</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" data-target="2">0</div>
@@ -191,48 +209,85 @@
         </div>
 
         <div class="reopen-badge">
-            > Initiating sleep mode. Vault reopens next semester...
+            > sudo sleep "until_next_sem"<br>
+            > Access Denied. Go enjoy your holidays!
         </div>
     </div>
 
     <script>
-        // 1. Create floating background symbols
+        // 1. GNIT, Coding, and Cheating Background Chaos
         const bgContainer = document.getElementById('bg-container');
-        const symbols = ['{ }', '</>', '();', '[]', '||', '&&', '404'];
+        const funnyPhrases = [
+            "Ctrl+C -> Ctrl+V -> Pray",
+            "import java.util.Miracles;",
+            "GNIT Lab Server: Overloaded by panicking students",
+            "// TODO: Learn this before finals (I won't)",
+            "Exception: java.lang.NoIdeaWhatImDoing",
+            "while(true) { stress(); }",
+            "if (exam == tomorrow) { cry(); }",
+            "git commit -m 'pls work bro'",
+            "Sneaking code like 007",
+            "System.out.println('Plz pass me');",
+            "Copying from the smart kid in row 1...",
+            "Error 404: Sleep not found",
+            "GNIT Wi-Fi: Randomly Disconnected",
+            "chmod 777 exam_answers.txt",
+            "sudo pass_exam --force",
+            "Looking busy when the invigilator walks by...",
+            "Alt+Tab speed: 1000 WPM"
+        ];
         
-        for (let i = 0; i < 20; i++) {
+        function createPhrase() {
             let el = document.createElement('div');
-            el.className = 'bg-element';
-            el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-            el.style.left = `${Math.random() * 100}vw`;
-            el.style.animationDuration = `${Math.random() * 5 + 5}s`;
-            el.style.animationDelay = `${Math.random() * 5}s`;
+            el.className = 'bg-phrase';
+            el.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
+            
+            // Randomize position, size, and speed
+            el.style.left = `${Math.random() * 90}vw`;
+            el.style.fontSize = `${Math.random() * 0.8 + 0.8}rem`; // 0.8rem to 1.6rem
+            el.style.opacity = Math.random() * 0.3 + 0.1; // 0.1 to 0.4
+            
+            const duration = Math.random() * 15 + 10; // 10s to 25s
+            el.style.animationDuration = `${duration}s`;
+            
             bgContainer.appendChild(el);
+
+            // Remove element after animation ends to keep DOM clean
+            setTimeout(() => {
+                el.remove();
+            }, duration * 1000);
         }
+
+        // Spawn initial phrases
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createPhrase, Math.random() * 5000);
+        }
+
+        // Keep spawning new phrases continuously
+        setInterval(createPhrase, 2000);
 
         // 2. Count-up animation for stats
         const statNumbers = document.querySelectorAll('.stat-number');
-        
         statNumbers.forEach(stat => {
             const target = +stat.getAttribute('data-target');
-            const duration = 2000; // 2 seconds
-            const increment = target / (duration / 16); // 60fps
+            const duration = 2500; 
+            const increment = target / (duration / 16); 
             
             let current = 0;
             const updateCounter = () => {
                 current += increment;
                 if (current < target) {
-                    stat.innerText = Math.ceil(current) + (target === 100 || target === 10 ? '+' : '');
+                    stat.innerText = Math.ceil(current) + (target >= 10 ? '+' : '');
                     requestAnimationFrame(updateCounter);
                 } else {
-                    stat.innerText = target + (target === 100 || target === 10 ? '+' : '');
+                    stat.innerText = target + (target >= 10 ? '+' : '');
                 }
             };
-            setTimeout(updateCounter, 500); // slight delay before counting starts
+            setTimeout(updateCounter, 600); 
         });
 
-        // 3. Typing animation for the funny message
-        const messageText = "Mission 'Pass The Lab' is officially over. The servers are tired, the code is resting, and frankly, you all need to go touch some grass. The cheat code vault is now locked. May your bugs be few and your summer break be error-free!";
+        // 3. Typing animation for the main funny message
+        const messageText = "Operation 'Pass The Lab' was a massive success. The GNIT servers are tired, your Alt+Tab fingers need rest, and honestly, you all need to go touch some grass. The underground cheat code vault is officially locked. May your compiler errors be zero and your summer break be epic!";
         const typingElement = document.getElementById('typing-text');
         let charIndex = 0;
 
@@ -240,12 +295,11 @@
             if (charIndex < messageText.length) {
                 typingElement.innerHTML += messageText.charAt(charIndex);
                 charIndex++;
-                setTimeout(typeMessage, 40); // typing speed
+                setTimeout(typeMessage, 35); // typing speed
             }
         }
 
-        // Start typing after a short delay
-        setTimeout(typeMessage, 1000);
+        setTimeout(typeMessage, 1200);
     </script>
 </body>
 </html>
