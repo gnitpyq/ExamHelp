@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- This is the magic line that forces the phone to act like a 1024px wide desktop monitor -->
+    <meta name="viewport" content="width=1024">
     <title>rebrand.ly/examhelp - Vault Closed</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@400;700&display=swap');
@@ -18,16 +19,16 @@
             color: #c9d1d9;
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
-            width: 100vw;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Prevents any scrolling from background text */
+            overflow: hidden; 
             position: relative;
         }
 
-        /* Animated Funny Background Text - BRIGHTER VERSION */
+        /* Animated Funny Background Text */
         #bg-container {
             position: absolute;
             top: 0;
@@ -41,8 +42,8 @@
 
         .bg-phrase {
             position: absolute;
-            color: rgba(46, 160, 67, 0.6); /* Much brighter green */
-            text-shadow: 0 0 8px rgba(46, 160, 67, 0.5); /* Adds a glowing effect */
+            color: rgba(46, 160, 67, 0.6); 
+            text-shadow: 0 0 8px rgba(46, 160, 67, 0.5); 
             font-family: 'Fira Code', monospace;
             white-space: nowrap;
             user-select: none;
@@ -56,12 +57,11 @@
             100% { transform: translateY(-10vh); opacity: 0; }
         }
 
-        /* Main Container - MOBILE FRIENDLY */
+        /* Main Container - FORCED DESKTOP WIDTH */
         .container {
             z-index: 1;
             text-align: center;
-            width: 90%; /* Keeps it from touching screen edges */
-            max-width: 800px;
+            width: 800px; /* Locked to 800px wide */
             padding: 2.5rem;
             background: rgba(22, 27, 34, 0.85);
             backdrop-filter: blur(12px);
@@ -69,17 +69,6 @@
             border: 1px solid #30363d;
             box-shadow: 0 0 40px rgba(46, 160, 67, 0.15);
             animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            max-height: 95vh;
-            overflow-y: auto; /* Adds internal scroll on tiny phones if needed */
-        }
-
-        /* Hide scrollbar for internal container */
-        .container::-webkit-scrollbar {
-            display: none;
-        }
-        .container {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
         }
 
         @keyframes popIn {
@@ -89,11 +78,10 @@
 
         h1 {
             font-family: 'Fira Code', monospace;
-            font-size: clamp(1.8rem, 5vw, 2.8rem); /* Scales automatically */
+            font-size: 2.8rem; /* Locked desktop size */
             color: #ff7b72;
             margin-bottom: 1rem;
             text-shadow: 0 0 15px rgba(255, 123, 114, 0.4);
-            word-wrap: break-word; /* Prevents long URL from breaking layout */
         }
 
         .status {
@@ -118,7 +106,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr); /* Locked to 3 columns */
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
@@ -129,6 +117,12 @@
             border-radius: 15px;
             border: 1px solid #30363d;
             transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #2ea043;
+            box-shadow: 0 10px 20px rgba(46, 160, 67, 0.1);
         }
 
         .stat-number {
@@ -163,7 +157,6 @@
             padding: 1rem;
             border-radius: 10px;
             border: 1px dashed #2ea043;
-            word-wrap: break-word;
         }
 
         .cursor {
@@ -179,32 +172,6 @@
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
-        }
-
-        /* MOBILE MEDIA QUERIES */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr; /* Stacks cards vertically */
-                gap: 0.8rem; /* Reduces gap between stacked cards */
-                margin-bottom: 1.5rem;
-            }
-            .stat-card {
-                padding: 1rem; /* Smaller padding inside cards */
-            }
-            .stat-number {
-                font-size: 2rem; /* Slightly smaller numbers */
-            }
-            .funny-message {
-                font-size: 0.95rem; /* Better readability on mobile */
-                min-height: 140px; /* Gives typing effect more room to wrap */
-            }
-            .reopen-badge {
-                font-size: 0.9rem;
-                padding: 0.8rem;
-            }
         }
     </style>
 </head>
@@ -242,7 +209,7 @@
     </div>
 
     <script>
-        // 1. GNIT Background Chaos (Now Brighter!)
+        // 1. GNIT Background Chaos
         const bgContainer = document.getElementById('bg-container');
         const funnyPhrases = [
             "Ctrl+C -> Ctrl+V -> Pray",
@@ -268,12 +235,9 @@
             el.className = 'bg-phrase';
             el.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
             
-            // Randomize position (keep it mostly within screen width)
-            el.style.left = `${Math.random() * 80}vw`; 
+            el.style.left = `${Math.random() * 90}vw`; 
             el.style.fontSize = `${Math.random() * 0.6 + 0.8}rem`; 
-            
-            // BRIGHTER OPACITY HERE
-            el.style.opacity = Math.random() * 0.5 + 0.3; // 0.3 to 0.8 opacity
+            el.style.opacity = Math.random() * 0.5 + 0.3; 
             
             const duration = Math.random() * 15 + 10; 
             el.style.animationDuration = `${duration}s`;
