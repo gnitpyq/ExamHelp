@@ -3,764 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Help Drive - Project Concluded</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>rebrand.ly/examhelp - Vault Closed</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@400;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --secondary: #64748b;
-            --accent: #06b6d4;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--dark);
-            color: var(--light);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated Grid Background */
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0;
-            animation: floatParticle 15s infinite;
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        @keyframes floatParticle {
-            0% {
-                opacity: 0;
-                transform: translateY(100vh) translateX(0);
-            }
-            10% {
-                opacity: 0.6;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100vh) translateX(100px);
-            }
-        }
-
-        /* Gradient Orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            z-index: 0;
-            animation: floatOrb 20s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--primary);
-            top: -100px;
-            right: -100px;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 300px;
-            height: 300px;
-            background: var(--accent);
-            bottom: -50px;
-            left: -50px;
-            animation-delay: -5s;
-        }
-
-        .orb-3 {
-            width: 250px;
-            height: 250px;
-            background: #8b5cf6;
-            top: 50%;
-            left: 50%;
-            animation-delay: -10s;
-        }
-
-        @keyframes floatOrb {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        /* Main Container */
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 40px;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-        }
-
-        /* Header Section */
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out forwards;
-        }
-
-        .badge {
-            display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
-            animation: pulse 2s ease-in-out infinite;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
         }
 
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+        /* Animated Background Elements */
+        .bg-element {
+            position: absolute;
+            color: rgba(46, 160, 67, 0.1);
+            font-family: 'Fira Code', monospace;
+            font-size: 2rem;
+            animation: float 10s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid #30363d;
+            box-shadow: 0 0 30px rgba(46, 160, 67, 0.2);
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         h1 {
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -2px;
-            line-height: 1.1;
+            font-family: 'Fira Code', monospace;
+            font-size: 2.5rem;
+            color: #ff7b72;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 123, 114, 0.5);
         }
 
-        .subtitle {
-            font-size: 20px;
-            color: var(--secondary);
-            font-weight: 400;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
+        .status {
+            display: inline-block;
+            background: #ff7b72;
+            color: #0d1117;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
         }
 
-        /* Glass Card */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 60px;
-            margin-bottom: 40px;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.2s forwards;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 123, 114, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 123, 114, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 123, 114, 0); }
         }
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-        }
-
-        /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .stat-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+        .stat-card {
+            background: #21262d;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid #30363d;
+            transition: transform 0.3s ease;
         }
 
-        .stat-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
-        }
-
-        .stat-item:hover::before {
-            transform: translateX(100%);
-        }
-
-        .stat-item:hover {
+        .stat-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(37, 99, 235, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 16px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
+            border-color: #2ea043;
         }
 
         .stat-number {
-            font-size: 42px;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #58a6ff;
+            font-family: 'Fira Code', monospace;
         }
 
         .stat-label {
-            font-size: 14px;
-            color: var(--secondary);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Content Section */
-        .content-section {
-            margin: 50px 0;
-        }
-
-        .section-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 24px;
-            background: linear-gradient(180deg, var(--primary), var(--accent));
-            border-radius: 2px;
-        }
-
-        .message-box {
-            background: rgba(255, 255, 255, 0.02);
-            border-left: 3px solid var(--primary);
-            padding: 30px;
-            border-radius: 0 12px 12px 0;
-            margin: 24px 0;
-            line-height: 1.8;
-            color: #cbd5e1;
-            font-size: 16px;
-        }
-
-        .message-box strong {
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .highlight {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        /* Link Display */
-        .link-container {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 20px 30px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            color: var(--accent);
-            transition: all 0.3s;
-        }
-
-        .link-container:hover {
-            border-color: var(--primary);
-            transform: translateX(5px);
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding: 40px 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 30px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, var(--primary), var(--accent), transparent);
-        }
-
-        .timeline-item {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 40px;
-            opacity: 0;
-            animation: fadeInLeft 0.8s ease-out forwards;
-        }
-
-        .timeline-item:nth-child(1) { animation-delay: 0.4s; }
-        .timeline-item:nth-child(2) { animation-delay: 0.6s; }
-        .timeline-item:nth-child(3) { animation-delay: 0.8s; }
-
-        @keyframes fadeInLeft {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-        }
-
-        .timeline-marker {
-            width: 60px;
-            height: 60px;
-            background: var(--dark);
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-        }
-
-        .timeline-content {
-            flex: 1;
-            padding-top: 10px;
-        }
-
-        .timeline-date {
-            font-size: 12px;
-            color: var(--accent);
-            font-weight: 600;
+            font-size: 0.9rem;
+            color: #8b949e;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 8px;
+            margin-top: 0.5rem;
         }
 
-        .timeline-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-
-        .timeline-desc {
-            color: var(--secondary);
+        .funny-message {
+            font-size: 1.1rem;
             line-height: 1.6;
+            margin-bottom: 2rem;
+            min-height: 80px; /* Prevents layout shift during typing */
+            color: #c9d1d9;
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid var(--glass-border);
-            margin-top: 40px;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1s forwards;
+        .reopen-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2rem;
+            color: #2ea043;
+            text-shadow: 0 0 10px rgba(46, 160, 67, 0.5);
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
-            from { opacity: 0; }
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.1rem;
+            background-color: #58a6ff;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 4px;
         }
 
-        .footer-text {
-            color: var(--secondary);
-            font-size: 14px;
-            margin-bottom: 10px;
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        .signature {
-            font-size: 16px;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 { font-size: 36px; }
-            .glass-card { padding: 40px 24px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .container { padding: 40px 20px; }
-            .timeline::before { left: 20px; }
-            .timeline-marker { width: 40px; height: 40px; font-size: 18px; }
-        }
-
-        /* Loading Animation */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s, visibility 0.5s;
-        }
-
-        .loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-circle {
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--glass-border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Scroll Reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Loader -->
-    <div class="loader" id="loader">
-        <div class="loader-circle"></div>
-    </div>
 
-    <!-- Background Elements -->
-    <div class="grid-bg"></div>
-    <div class="particles" id="particles"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+    <!-- Dynamic Background Elements -->
+    <div id="bg-container"></div>
 
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="badge">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/>
-                </svg>
-                Project Concluded
+        <div class="status">System Offline</div>
+        <h1>rebrand.ly/examhelp</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" data-target="100">0</div>
+                <div class="stat-label">Clicks of Desperation</div>
             </div>
-            <h1>Exam Help Drive</h1>
-            <p class="subtitle">A collaborative initiative that successfully supported students through their practical examinations</p>
-        </header>
-
-        <!-- Main Card -->
-        <div class="glass-card">
-            <!-- Stats -->
-            <div class="stats-grid">
-                <div class="stat-item reveal">
-                    <div class="stat-icon">👥</div>
-                    <div class="stat-number" data-target="100">0</div>
-                    <div class="stat-label">Students Assisted</div>
-                </div>
-                <div class="stat-item reveal">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-number" data-target="100">0</div>
-                    <div class="stat-label">Success Rate %</div>
-                </div>
-                <div class="stat-item reveal">
-                    <div class="stat-icon">📚</div>
-                    <div class="stat-number" data-target="50">0</div>
-                    <div class="stat-label">Resources Shared</div>
-                </div>
-                <div class="stat-item reveal">
-                    <div class="stat-icon">⏱️</div>
-                    <div class="stat-number" data-target="24">0</div>
-                    <div class="stat-label">Hours of Support</div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="10">0</div>
+                <div class="stat-label">Students Saved</div>
             </div>
-
-            <!-- Link Display -->
-            <div style="text-align: center; margin: 40px 0;">
-                <div class="link-container">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                    </svg>
-                    rebrand.ly/examhelp
-                </div>
-            </div>
-
-            <!-- Message -->
-            <div class="content-section reveal">
-                <h2 class="section-title">Project Summary</h2>
-                <div class="message-box">
-                    <p>
-                        <strong>Dear Students and Collaborators,</strong>
-                    </p>
-                    <p style="margin-top: 16px;">
-                        This marks the official conclusion of the Exam Help Drive initiative. What began as a resource sharing platform evolved into a comprehensive support system that <span class="highlight">empowered over 100 students</span> to excel in their practical laboratory examinations.
-                    </p>
-                    <p style="margin-top: 16px;">
-                        Through collaborative effort, shared knowledge, and dedication to academic excellence, we created a repository of laboratory codes, study materials, and practical guidance that proved instrumental in student success.
-                    </p>
-                    <p style="margin-top: 16px;">
-                        While this specific initiative has concluded, the knowledge shared and skills developed will continue to serve you throughout your academic and professional journeys. <span class="highlight">Thank you for being part of this successful endeavor.</span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Timeline -->
-            <div class="content-section reveal">
-                <h2 class="section-title">Project Journey</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker">📁</div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">Inception</div>
-                            <div class="timeline-title">Drive Creation</div>
-                            <div class="timeline-desc">Established comprehensive Google Drive repository with organized laboratory codes and study materials for practical exam preparation.</div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker">🚀</div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">Growth Phase</div>
-                            <div class="timeline-title">Community Expansion</div>
-                            <div class="timeline-desc">Reached 100+ students with continuous updates, additional resources, and real-time support during examination periods.</div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker">✓</div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">Completion</div>
-                            <div class="timeline-title">Mission Accomplished</div>
-                            <div class="timeline-desc">Successfully supported students through examination period. Drive officially closed with 100% positive feedback and documented success stories.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Closing -->
-            <div class="content-section reveal" style="text-align: center; margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--glass-border);">
-                <p style="color: var(--secondary); font-size: 16px; line-height: 1.8;">
-                    This initiative demonstrated the power of collaborative learning and peer support.<br>
-                    The drive may be closed, but the impact remains.
-                </p>
-                <p style="margin-top: 24px; font-size: 18px; color: #fff; font-weight: 600;">
-                    Wishing you continued success in all your future endeavors.
-                </p>
+            <div class="stat-card">
+                <div class="stat-number" data-target="2">0</div>
+                <div class="stat-label">Labs Conquered</div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p class="footer-text">Exam Help Drive Initiative • Academic Support Program</p>
-            <p class="signature">© 2026 • Knowledge Shared, Success Achieved</p>
-        </footer>
+        <div class="funny-message">
+            <span id="typing-text"></span><span class="cursor"></span>
+        </div>
+
+        <div class="reopen-badge">
+            > Initiating sleep mode. Vault reopens next semester...
+        </div>
     </div>
 
     <script>
-        // Hide loader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 500);
+        // 1. Create floating background symbols
+        const bgContainer = document.getElementById('bg-container');
+        const symbols = ['{ }', '</>', '();', '[]', '||', '&&', '404'];
+        
+        for (let i = 0; i < 20; i++) {
+            let el = document.createElement('div');
+            el.className = 'bg-element';
+            el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            el.style.left = `${Math.random() * 100}vw`;
+            el.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            el.style.animationDelay = `${Math.random() * 5}s`;
+            bgContainer.appendChild(el);
+        }
+
+        // 2. Count-up animation for stats
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        statNumbers.forEach(stat => {
+            const target = +stat.getAttribute('data-target');
+            const duration = 2000; // 2 seconds
+            const increment = target / (duration / 16); // 60fps
+            
+            let current = 0;
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    stat.innerText = Math.ceil(current) + (target === 100 || target === 10 ? '+' : '');
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    stat.innerText = target + (target === 100 || target === 10 ? '+' : '');
+                }
+            };
+            setTimeout(updateCounter, 500); // slight delay before counting starts
         });
 
-        // Create particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const particleCount = 30;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                container.appendChild(particle);
+        // 3. Typing animation for the funny message
+        const messageText = "Mission 'Pass The Lab' is officially over. The servers are tired, the code is resting, and frankly, you all need to go touch some grass. The cheat code vault is now locked. May your bugs be few and your summer break be error-free!";
+        const typingElement = document.getElementById('typing-text');
+        let charIndex = 0;
+
+        function typeMessage() {
+            if (charIndex < messageText.length) {
+                typingElement.innerHTML += messageText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeMessage, 40); // typing speed
             }
         }
-        createParticles();
 
-        // Animate numbers
-        function animateNumbers() {
-            const numbers = document.querySelectorAll('.stat-number');
-            
-            numbers.forEach(num => {
-                const target = parseInt(num.getAttribute('data-target'));
-                const duration = 2000;
-                const step = target / (duration / 16);
-                let current = 0;
-                
-                const timer = setInterval(() => {
-                    current += step;
-                    if (current >= target) {
-                        num.textContent = target + (num.parentElement.querySelector('.stat-label').textContent.includes('%') ? '%' : '+');
-                        clearInterval(timer);
-                    } else {
-                        num.textContent = Math.floor(current);
-                    }
-                }, 16);
-            });
-        }
-
-        // Scroll reveal
-        function handleScrollReveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            
-            reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    element.classList.add('active');
-                }
-            });
-        }
-
-        // Trigger animations when card is visible
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateNumbers();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        const glassCard = document.querySelector('.glass-card');
-        if (glassCard) {
-            observer.observe(glassCard);
-        }
-
-        // Scroll listener
-        window.addEventListener('scroll', handleScrollReveal);
-        handleScrollReveal();
-
-        // Smooth parallax effect for orbs
-        document.addEventListener('mousemove', (e) => {
-            const orbs = document.querySelectorAll('.orb');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            orbs.forEach((orb, index) => {
-                const speed = (index + 1) * 20;
-                const xOffset = (0.5 - x) * speed;
-                const yOffset = (0.5 - y) * speed;
-                orb.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
-            });
-        });
-
-        // Add hover effect to stat items
-        document.querySelectorAll('.stat-item').forEach(item => {
-            item.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            item.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
+        // Start typing after a short delay
+        setTimeout(typeMessage, 1000);
     </script>
 </body>
 </html>
