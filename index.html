@@ -2,13 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>rebrand.ly/examhelp - Vault Closed</title>
+    <title>rebrand.ly/examhelp - Coming Soon</title>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-color: #0d1117; 
+            --term-green: #39d353; 
+            --term-dark-green: #2ea043;
+            --term-red: #ff7b72;
+            --text-main: #e6edf3;
+            --scanline: rgba(57, 211, 83, 0.04);
+        }
 
         * {
             margin: 0;
@@ -17,21 +24,40 @@
         }
 
         body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            width: 100%;
+            background-color: var(--bg-color);
+            color: var(--term-green);
+            font-family: 'Fira Code', monospace;
+            height: 100vh; /* Strictly lock to screen height */
+            width: 100vw;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden; /* Prevents horizontal scroll from background animations */
+            overflow: hidden; /* STRICTLY NO PAGE SCROLLING */
             position: relative;
-            padding: 2rem 0; /* Adds breathing room on very short screens */
+            padding: 1rem;
         }
 
-        /* Animated Background Text */
+        /* CRT Scanline Effect */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                var(--scanline) 50%,
+                var(--scanline)
+            );
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Background Log Stream */
         #bg-container {
             position: absolute;
             top: 0;
@@ -39,244 +65,234 @@
             width: 100%;
             height: 100%;
             z-index: 0;
+            opacity: 0.45;
             pointer-events: none;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .bg-log {
+            color: var(--term-dark-green);
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            opacity: 1;
+            transition: opacity 2s ease-out;
+            text-shadow: 0 0 5px rgba(46, 160, 67, 0.4);
+            position: absolute;
+        }
+
+        /* Terminal Window */
+        .terminal {
+            z-index: 10;
+            width: 100%;
+            max-width: 850px;
+            max-height: calc(100vh - 2rem); /* Never exceed screen height minus padding */
+            background: rgba(22, 27, 34, 0.9);
+            border: 1px solid #30363d;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(46, 160, 67, 0.1);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(8px);
+            border-radius: 8px;
             overflow: hidden;
         }
 
-        .bg-phrase {
-            position: absolute;
-            color: rgba(46, 160, 67, 0.6);
-            text-shadow: 0 0 8px rgba(46, 160, 67, 0.5);
-            font-family: 'Fira Code', monospace;
-            white-space: nowrap;
-            user-select: none;
-            animation: driftUp linear forwards;
+        /* Terminal Header */
+        .terminal-header {
+            background: #21262d;
+            border-bottom: 1px solid #30363d;
+            color: var(--text-main);
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            font-weight: 400;
+            font-size: 0.9rem;
+            flex-shrink: 0; /* Header never shrinks */
         }
 
-        @keyframes driftUp {
-            0% {
-                transform: translateY(110vh);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh);
-                opacity: 0;
-            }
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+            margin-right: 15px;
         }
 
-        /* Main Container */
-        .container {
-            z-index: 1;
-            text-align: center;
-            /* FIX: Changed from fixed 800px to responsive max-width */
-            width: 90%;
-            max-width: 800px;
-            padding: 2.5rem;
-            background: rgba(22, 27, 34, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            border: 1px solid #30363d;
-            box-shadow: 0 0 40px rgba(46, 160, 67, 0.15);
-            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        .btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .btn:nth-child(1) { background: #ff5f56; }
+        .btn:nth-child(2) { background: #ffbd2e; }
+        .btn:nth-child(3) { background: #27c93f; }
+
+        /* Terminal Body Content */
+        .terminal-body {
+            /* Dynamic padding: smaller on short screens, larger on big screens */
+            padding: clamp(1.2rem, 3vh, 2.5rem); 
+            position: relative;
+            flex: 1; /* Take up remaining space */
+            
+            /* If screen is incredibly small (mobile), scroll INSIDE the terminal gracefully */
+            overflow-y: auto; 
+            
+            /* Hide scrollbars for sleek hacker look */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+        
+        .terminal-body::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
         }
 
-        @keyframes popIn {
-            0% {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
+        /* Glitch Title */
         h1 {
-            font-family: 'Fira Code', monospace;
-            font-size: clamp(1.8rem, 4vw, 2.8rem); /* Responsive font size */
-            color: #ff7b72;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 15px rgba(255, 123, 114, 0.4);
-            word-wrap: break-word;
+            font-size: clamp(1.2rem, 3vw, 2.2rem);
+            color: var(--term-green);
+            text-shadow: 0 0 10px rgba(57, 211, 83, 0.5);
+            letter-spacing: 1px;
+            margin-bottom: clamp(0.5rem, 1vh, 0.8rem);
         }
 
         .status {
             display: inline-block;
-            background: #ff7b72;
-            color: #0d1117;
-            padding: 0.4rem 1.2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
+            color: var(--term-red);
+            background: rgba(255, 123, 114, 0.1);
+            border: 1px solid var(--term-red);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-bottom: clamp(1rem, 3vh, 2rem);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: pulse 2s infinite;
+            box-shadow: 0 0 15px rgba(255, 123, 114, 0.2);
+            animation: blink-red 2s infinite;
         }
 
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(255, 123, 114, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 15px rgba(255, 123, 114, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 123, 114, 0);
-            }
+        @keyframes blink-red {
+            0%, 100% { opacity: 1; border-color: var(--term-red); }
+            50% { opacity: 0.5; border-color: rgba(255, 123, 114, 0.3); }
         }
 
+        /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: clamp(1rem, 3vh, 2rem);
+            border-top: 1px dashed #30363d;
+            border-bottom: 1px dashed #30363d;
+            padding: clamp(1rem, 2vh, 1.5rem) 0;
         }
 
         .stat-card {
-            background: #21262d;
-            padding: 1.5rem;
-            border-radius: 15px;
-            border: 1px solid #30363d;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: #2ea043;
-            box-shadow: 0 10px 20px rgba(46, 160, 67, 0.1);
+            text-align: left;
+            padding-left: 1rem;
+            border-left: 3px solid var(--term-dark-green);
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #58a6ff;
-            font-family: 'Fira Code', monospace;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: 600;
+            color: var(--term-green);
+            text-shadow: 0 0 8px rgba(57, 211, 83, 0.4);
         }
 
         .stat-label {
-            font-size: 0.85rem;
-            color: #8b949e;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 0.5rem;
-        }
-
-        .funny-message {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            min-height: 100px;
-            color: #c9d1d9;
-            text-align: center;
-        }
-
-        /* Countdown */
-        .countdown-container {
-            margin-bottom: 1.8rem;
-            padding: 1.2rem;
-            background: rgba(88, 166, 255, 0.08);
-            border: 1px solid rgba(88, 166, 255, 0.25);
-            border-radius: 16px;
-        }
-
-        .countdown-title {
-            font-family: 'Fira Code', monospace;
-            color: #58a6ff;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .countdown-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-        }
-
-        .time-box {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 1rem;
-            transition: 0.3s ease;
-        }
-
-        .time-box:hover {
-            transform: translateY(-3px);
-            border-color: #58a6ff;
-            box-shadow: 0 8px 18px rgba(88, 166, 255, 0.12);
-        }
-
-        .time-box span {
-            display: block;
-            font-size: 2.3rem;
-            font-weight: bold;
-            color: #58a6ff;
-            font-family: 'Fira Code', monospace;
-        }
-
-        .time-box small {
-            color: #8b949e;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             font-size: 0.75rem;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.2rem;
         }
 
-        .reopen-badge {
-            font-family: 'Fira Code', monospace;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            color: #2ea043;
-            background: rgba(46, 160, 67, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            border: 1px dashed #2ea043;
-            word-wrap: break-word;
+        /* Typing Area */
+        .message-box {
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            line-height: 1.5;
+            margin-bottom: clamp(1.2rem, 3vh, 2.5rem);
+            min-height: 70px;
+            color: var(--text-main);
         }
 
         .cursor {
             display: inline-block;
             width: 8px;
-            height: 1.1rem;
-            background-color: #58a6ff;
-            animation: blink 1s infinite;
+            height: 1rem;
+            background-color: var(--term-green);
             vertical-align: middle;
+            animation: blink-cursor 1s step-end infinite;
             margin-left: 4px;
         }
 
-        @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0;
-            }
+        @keyframes blink-cursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 650px) {
-            .stats-grid, .countdown-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .container {
-                padding: 1.5rem;
-            }
+        /* Countdown */
+        .countdown-wrapper {
+            background: rgba(57, 211, 83, 0.05);
+            border: 1px solid var(--term-dark-green);
+            border-radius: 6px;
+            padding: clamp(1rem, 2vh, 1.5rem);
+            position: relative;
+        }
 
-            .stat-card {
-                padding: 1rem;
+        .countdown-wrapper::before {
+            content: "[ VAULT REOPENS IN  ]";
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: rgba(22, 27, 34, 1);
+            padding: 0 10px;
+            font-size: 0.8rem;
+            color: var(--term-green);
+            font-weight: 600;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .time-box {
+            text-align: center;
+        }
+
+        .time-box span {
+            display: block;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: 600;
+            color: var(--term-green);
+            text-shadow: 0 0 10px rgba(57, 211, 83, 0.4);
+        }
+
+        .time-box small {
+            color: #8b949e;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* System Footer */
+        .sys-log {
+            margin-top: clamp(1rem, 3vh, 2.5rem);
+            font-size: clamp(0.7rem, 1vw, 0.85rem);
+            color: #8b949e;
+            line-height: 1.5;
+        }
+
+        .sys-log span {
+            color: var(--term-green);
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
             }
-            
-            .funny-message {
-                min-height: auto;
-            }
+            .time-box span { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -285,142 +301,129 @@
 
     <div id="bg-container"></div>
 
-    <div class="container">
-
-        <div class="status">Vault Offline</div>
-
-        <h1>rebrand.ly/examhelp</h1>
-
-        <div class="stats-grid">
-
-            <div class="stat-card">
-                <div class="stat-number" data-target="100">0</div>
-                <div class="stat-label">Clicks of Desperation</div>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="header-buttons">
+                <div class="btn"></div>
+                <div class="btn"></div>
+                <div class="btn"></div>
             </div>
-
-            <div class="stat-card">
-                <div class="stat-number" data-target="10">0</div>
-                <div class="stat-label">Grades Saved</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-number" data-target="2">0</div>
-                <div class="stat-label">Labs Conquered</div>
-            </div>
-
+            root@rebrand.ly:~/examhelp
         </div>
 
-        <div class="funny-message">
-            <span id="typing-text"></span><span class="cursor"></span>
-        </div>
+        <div class="terminal-body">
+            
+            <div class="status">[ ERR_CONNECTION_REFUSED: VAULT_OFFLINE ]</div>
 
-        <div class="countdown-container">
+            <h1>> rebrand.ly/examhelp.sh</h1>
 
-            <div class="countdown-title">
-                Vault Reopens In
-            </div>
-
-            <div class="countdown-grid">
-
-                <div class="time-box">
-                    <span id="hours">00</span>
-                    <small>Hours</small>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">Desperation Logs</div>
                 </div>
-
-                <div class="time-box">
-                    <span id="minutes">00</span>
-                    <small>Minutes</small>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-label">Grades Patched</div>
                 </div>
-
-                <div class="time-box">
-                    <span id="seconds">00</span>
-                    <small>Seconds</small>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="2">0</div>
+                    <div class="stat-label">Labs Bypassed</div>
                 </div>
+            </div>
 
+            <div class="message-box">
+                <span id="typing-text"></span><span class="cursor"></span>
+            </div>
+
+            <div class="countdown-wrapper">
+                <div class="countdown-grid">
+                    <div class="time-box">
+                        <span id="hours">00</span>
+                        <small>Hours</small>
+                    </div>
+                    <div class="time-box">
+                        <span id="minutes">00</span>
+                        <small>Minutes</small>
+                    </div>
+                    <div class="time-box">
+                        <span id="seconds">00</span>
+                        <small>Seconds</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sys-log">
+                [SYS] Terminating process... <br>
+                [SYS] Target file locked: <span>rebrand.ly/examhelp</span> <br>
+                [SYS] Have a good break.
             </div>
 
         </div>
-
-        <div class="reopen-badge">
-            > sudo sleep "until_next_sem"<br>
-            > Access Denied. Go enjoy your holidays!
-        </div>
-
     </div>
 
     <script>
-
-        // Background phrases
+        // Background Terminal Logs
         const bgContainer = document.getElementById('bg-container');
-
-        const funnyPhrases = [
-            "Ctrl+C -> Ctrl+V -> Pray",
-            "import java.util.Miracles;",
-            "GNIT Lab Server: Overloaded",
-            "// TODO: Learn this before finals",
-            "Exception: java.lang.NoIdeaWhatImDoing",
-            "while(true) { stress(); }",
-            "if (exam == tomorrow) { cry(); }",
-            "git commit -m 'pls work bro'",
-            "Sneaking code like 007",
-            "System.out.println('Plz pass me');",
-            "Copying from the smart kid...",
-            "Error 404: Sleep not found",
-            "GNIT Wi-Fi: Disconnected",
-            "chmod 777 exam_answers.txt",
-            "sudo pass_exam --force",
-            "Alt+Tab speed: 1000 WPM"
+        const logPhrases = [
+            "[INFO] Connecting to GNIT proxy...",
+            "[WARN] Traffic spike detected on port 8080",
+            "[ERR] java.lang.NullPointerException at finals.java",
+            "chmod -R 777 /var/answers/",
+            "sudo rm -rf /stress",
+            "[OK] Payload 'copy_paste.sh' executed",
+            "ping 127.0.0.1 -c 4",
+            "[WARN] Admin logged in. Hiding directories...",
+            "Decrypting module_3_notes.pdf...",
+            "0x00000008: Memory segmentation fault",
+            "SSH connection established: student@lab",
+            "grep -r 'pass' ./exam_results/"
         ];
 
-        function createPhrase() {
+        function createBgLog() {
             let el = document.createElement('div');
-            el.className = 'bg-phrase';
-            el.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-            el.style.left = `${Math.random() * 90}vw`;
-            el.style.fontSize = `${Math.random() * 0.6 + 0.8}rem`;
-            el.style.opacity = Math.random() * 0.5 + 0.3;
-            const duration = Math.random() * 15 + 10;
-            el.style.animationDuration = `${duration}s`;
-
+            el.className = 'bg-log';
+            el.innerText = `> ${logPhrases[Math.floor(Math.random() * logPhrases.length)]}`;
+            
+            el.style.top = `${Math.random() * 90}vh`;
+            el.style.left = `${Math.random() * 80}vw`;
+            
             bgContainer.appendChild(el);
 
             setTimeout(() => {
-                el.remove();
-            }, duration * 1000);
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 2000);
+            }, 1500);
         }
 
-        for (let i = 0; i < 15; i++) {
-            setTimeout(createPhrase, Math.random() * 5000);
-        }
+        setInterval(createBgLog, 300);
 
-        setInterval(createPhrase, 2000);
-
-        // Stats count animation
+        // Stats Matrix Count Animation
         const statNumbers = document.querySelectorAll('.stat-number');
 
         statNumbers.forEach(stat => {
             const target = +stat.getAttribute('data-target');
-            const duration = 2500;
+            const duration = 2000;
             const increment = target / (duration / 16);
             let current = 0;
 
             const updateCounter = () => {
                 current += increment;
                 if (current < target) {
-                    stat.innerText = Math.ceil(current) + (target >= 10 ? '+' : '');
+                    const isGlitch = Math.random() > 0.8;
+                    stat.innerText = isGlitch ? Math.floor(Math.random() * 99) : Math.ceil(current);
                     requestAnimationFrame(updateCounter);
                 } else {
                     stat.innerText = target + (target >= 10 ? '+' : '');
                 }
             };
 
-            setTimeout(updateCounter, 600);
+            setTimeout(updateCounter, 800);
         });
 
         // Typing animation
-        const messageText =
-            "Operation 'Pass The Lab' was a massive success. The GNIT servers are tired, your Alt+Tab fingers need rest, and honestly, you all need to go touch some grass. The underground cheat code vault is officially locked. May your compiler errors be zero and your summer break be epic!";
-
+        const messageText = "Operation 'Pass The Lab' executed successfully. Target servers are strained. The underground script vault is officially encrypted and isolated from the mainframe. Rest your fingers. End of line.";
+        
         const typingElement = document.getElementById('typing-text');
         let charIndex = 0;
 
@@ -428,11 +431,11 @@
             if (charIndex < messageText.length) {
                 typingElement.innerHTML += messageText.charAt(charIndex);
                 charIndex++;
-                setTimeout(typeMessage, 35);
+                setTimeout(typeMessage, 30 + Math.random() * 40); 
             }
         }
 
-        setTimeout(typeMessage, 1200);
+        setTimeout(typeMessage, 1500);
 
         // Countdown Timer
         const targetDate = new Date("June 6, 2026 00:00:00").getTime();
@@ -459,7 +462,6 @@
 
         updateCountdown();
         setInterval(updateCountdown, 1000);
-
     </script>
 </body>
 </html>
