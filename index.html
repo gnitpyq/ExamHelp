@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- This is the magic line that forces the phone to act like a 1024px wide desktop monitor -->
+
+    <!-- Forces desktop layout on mobile -->
     <meta name="viewport" content="width=1024">
+
     <title>rebrand.ly/examhelp - Vault Closed</title>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@400;700&display=swap');
 
@@ -24,11 +27,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden; 
+            overflow: hidden;
             position: relative;
         }
 
-        /* Animated Funny Background Text */
+        /* Animated Background Text */
         #bg-container {
             position: absolute;
             top: 0;
@@ -42,8 +45,8 @@
 
         .bg-phrase {
             position: absolute;
-            color: rgba(46, 160, 67, 0.6); 
-            text-shadow: 0 0 8px rgba(46, 160, 67, 0.5); 
+            color: rgba(46, 160, 67, 0.6);
+            text-shadow: 0 0 8px rgba(46, 160, 67, 0.5);
             font-family: 'Fira Code', monospace;
             white-space: nowrap;
             user-select: none;
@@ -51,17 +54,30 @@
         }
 
         @keyframes driftUp {
-            0% { transform: translateY(110vh); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-10vh); opacity: 0; }
+            0% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh);
+                opacity: 0;
+            }
         }
 
-        /* Main Container - FORCED DESKTOP WIDTH */
+        /* Main Container */
         .container {
             z-index: 1;
             text-align: center;
-            width: 800px; /* Locked to 800px wide */
+            width: 800px;
             padding: 2.5rem;
             background: rgba(22, 27, 34, 0.85);
             backdrop-filter: blur(12px);
@@ -72,13 +88,20 @@
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         h1 {
             font-family: 'Fira Code', monospace;
-            font-size: 2.8rem; /* Locked desktop size */
+            font-size: 2.8rem;
             color: #ff7b72;
             margin-bottom: 1rem;
             text-shadow: 0 0 15px rgba(255, 123, 114, 0.4);
@@ -99,14 +122,22 @@
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 123, 114, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(255, 123, 114, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 123, 114, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 123, 114, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 123, 114, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 123, 114, 0);
+            }
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Locked to 3 columns */
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
@@ -149,6 +180,59 @@
             text-align: center;
         }
 
+        /* Countdown */
+        .countdown-container {
+            margin-bottom: 1.8rem;
+            padding: 1.2rem;
+            background: rgba(88, 166, 255, 0.08);
+            border: 1px solid rgba(88, 166, 255, 0.25);
+            border-radius: 16px;
+        }
+
+        .countdown-title {
+            font-family: 'Fira Code', monospace;
+            color: #58a6ff;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .time-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 1rem;
+            transition: 0.3s ease;
+        }
+
+        .time-box:hover {
+            transform: translateY(-3px);
+            border-color: #58a6ff;
+            box-shadow: 0 8px 18px rgba(88, 166, 255, 0.12);
+        }
+
+        .time-box span {
+            display: block;
+            font-size: 2.3rem;
+            font-weight: bold;
+            color: #58a6ff;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .time-box small {
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+        }
+
         .reopen-badge {
             font-family: 'Fira Code', monospace;
             font-size: 1.1rem;
@@ -170,47 +254,90 @@
         }
 
         @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div id="bg-container"></div>
 
     <div class="container">
+
         <div class="status">Vault Offline</div>
+
         <h1>rebrand.ly/examhelp</h1>
-        
+
         <div class="stats-grid">
+
             <div class="stat-card">
                 <div class="stat-number" data-target="100">0</div>
                 <div class="stat-label">Clicks of Desperation</div>
             </div>
+
             <div class="stat-card">
                 <div class="stat-number" data-target="10">0</div>
                 <div class="stat-label">Grades Saved</div>
             </div>
+
             <div class="stat-card">
                 <div class="stat-number" data-target="2">0</div>
                 <div class="stat-label">Labs Conquered</div>
             </div>
+
         </div>
 
         <div class="funny-message">
             <span id="typing-text"></span><span class="cursor"></span>
         </div>
 
+        <!-- Countdown -->
+        <div class="countdown-container">
+
+            <div class="countdown-title">
+                Vault Reopens In
+            </div>
+
+            <div class="countdown-grid">
+
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    <small>Hours</small>
+                </div>
+
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <small>Minutes</small>
+                </div>
+
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <small>Seconds</small>
+                </div>
+
+            </div>
+
+        </div>
+
         <div class="reopen-badge">
             > sudo sleep "until_next_sem"<br>
             > Access Denied. Go enjoy your holidays!
         </div>
+
     </div>
 
     <script>
-        // 1. GNIT Background Chaos
+
+        // Background phrases
         const bgContainer = document.getElementById('bg-container');
+
         const funnyPhrases = [
             "Ctrl+C -> Ctrl+V -> Pray",
             "import java.util.Miracles;",
@@ -229,19 +356,29 @@
             "sudo pass_exam --force",
             "Alt+Tab speed: 1000 WPM"
         ];
-        
+
         function createPhrase() {
+
             let el = document.createElement('div');
+
             el.className = 'bg-phrase';
-            el.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-            
-            el.style.left = `${Math.random() * 90}vw`; 
-            el.style.fontSize = `${Math.random() * 0.6 + 0.8}rem`; 
-            el.style.opacity = Math.random() * 0.5 + 0.3; 
-            
-            const duration = Math.random() * 15 + 10; 
+
+            el.innerText =
+                funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
+
+            el.style.left = `${Math.random() * 90}vw`;
+
+            el.style.fontSize =
+                `${Math.random() * 0.6 + 0.8}rem`;
+
+            el.style.opacity =
+                Math.random() * 0.5 + 0.3;
+
+            const duration =
+                Math.random() * 15 + 10;
+
             el.style.animationDuration = `${duration}s`;
-            
+
             bgContainer.appendChild(el);
 
             setTimeout(() => {
@@ -252,42 +389,115 @@
         for (let i = 0; i < 15; i++) {
             setTimeout(createPhrase, Math.random() * 5000);
         }
+
         setInterval(createPhrase, 2000);
 
-        // 2. Count-up animation for stats
-        const statNumbers = document.querySelectorAll('.stat-number');
+        // Stats count animation
+        const statNumbers =
+            document.querySelectorAll('.stat-number');
+
         statNumbers.forEach(stat => {
-            const target = +stat.getAttribute('data-target');
-            const duration = 2500; 
-            const increment = target / (duration / 16); 
-            
+
+            const target =
+                +stat.getAttribute('data-target');
+
+            const duration = 2500;
+
+            const increment =
+                target / (duration / 16);
+
             let current = 0;
+
             const updateCounter = () => {
+
                 current += increment;
+
                 if (current < target) {
-                    stat.innerText = Math.ceil(current) + (target >= 10 ? '+' : '');
+
+                    stat.innerText =
+                        Math.ceil(current) +
+                        (target >= 10 ? '+' : '');
+
                     requestAnimationFrame(updateCounter);
+
                 } else {
-                    stat.innerText = target + (target >= 10 ? '+' : '');
+
+                    stat.innerText =
+                        target +
+                        (target >= 10 ? '+' : '');
                 }
             };
-            setTimeout(updateCounter, 600); 
+
+            setTimeout(updateCounter, 600);
         });
 
-        // 3. Typing animation
-        const messageText = "Operation 'Pass The Lab' was a massive success. The GNIT servers are tired, your Alt+Tab fingers need rest, and honestly, you all need to go touch some grass. The underground cheat code vault is officially locked. May your compiler errors be zero and your summer break be epic!";
-        const typingElement = document.getElementById('typing-text');
+        // Typing animation
+        const messageText =
+            "Operation 'Pass The Lab' was a massive success. The GNIT servers are tired, your Alt+Tab fingers need rest, and honestly, you all need to go touch some grass. The underground cheat code vault is officially locked. May your compiler errors be zero and your summer break be epic!";
+
+        const typingElement =
+            document.getElementById('typing-text');
+
         let charIndex = 0;
 
         function typeMessage() {
+
             if (charIndex < messageText.length) {
-                typingElement.innerHTML += messageText.charAt(charIndex);
+
+                typingElement.innerHTML +=
+                    messageText.charAt(charIndex);
+
                 charIndex++;
-                setTimeout(typeMessage, 35); 
+
+                setTimeout(typeMessage, 35);
             }
         }
 
         setTimeout(typeMessage, 1200);
+
+        // Countdown Timer
+        const targetDate =
+            new Date("June 6, 2026 00:00:00").getTime();
+
+        function updateCountdown() {
+
+            const now = new Date().getTime();
+
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+
+                return;
+            }
+
+            const totalHours =
+                Math.floor(diff / (1000 * 60 * 60));
+
+            const minutes =
+                Math.floor((diff / (1000 * 60)) % 60);
+
+            const seconds =
+                Math.floor((diff / 1000) % 60);
+
+            document.getElementById("hours").innerText =
+                String(totalHours).padStart(2, '0');
+
+            document.getElementById("minutes").innerText =
+                String(minutes).padStart(2, '0');
+
+            document.getElementById("seconds").innerText =
+                String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+
+        setInterval(updateCountdown, 1000);
+
     </script>
+
 </body>
 </html>
