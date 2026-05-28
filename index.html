@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <!-- Forces desktop layout on mobile -->
-    <meta name="viewport" content="width=1024">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>rebrand.ly/examhelp - Vault Closed</title>
 
@@ -27,8 +26,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden; /* Prevents horizontal scroll from background animations */
             position: relative;
+            padding: 2rem 0; /* Adds breathing room on very short screens */
         }
 
         /* Animated Background Text */
@@ -58,15 +58,12 @@
                 transform: translateY(110vh);
                 opacity: 0;
             }
-
             10% {
                 opacity: 1;
             }
-
             90% {
                 opacity: 1;
             }
-
             100% {
                 transform: translateY(-10vh);
                 opacity: 0;
@@ -77,7 +74,9 @@
         .container {
             z-index: 1;
             text-align: center;
-            width: 800px;
+            /* FIX: Changed from fixed 800px to responsive max-width */
+            width: 90%;
+            max-width: 800px;
             padding: 2.5rem;
             background: rgba(22, 27, 34, 0.85);
             backdrop-filter: blur(12px);
@@ -92,7 +91,6 @@
                 transform: scale(0.8);
                 opacity: 0;
             }
-
             100% {
                 transform: scale(1);
                 opacity: 1;
@@ -101,10 +99,11 @@
 
         h1 {
             font-family: 'Fira Code', monospace;
-            font-size: 2.8rem;
+            font-size: clamp(1.8rem, 4vw, 2.8rem); /* Responsive font size */
             color: #ff7b72;
             margin-bottom: 1rem;
             text-shadow: 0 0 15px rgba(255, 123, 114, 0.4);
+            word-wrap: break-word;
         }
 
         .status {
@@ -125,11 +124,9 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(255, 123, 114, 0.7);
             }
-
             70% {
                 box-shadow: 0 0 0 15px rgba(255, 123, 114, 0);
             }
-
             100% {
                 box-shadow: 0 0 0 0 rgba(255, 123, 114, 0);
             }
@@ -235,12 +232,13 @@
 
         .reopen-badge {
             font-family: 'Fira Code', monospace;
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             color: #2ea043;
             background: rgba(46, 160, 67, 0.1);
             padding: 1rem;
             border-radius: 10px;
             border: 1px dashed #2ea043;
+            word-wrap: break-word;
         }
 
         .cursor {
@@ -257,9 +255,27 @@
             0%, 100% {
                 opacity: 1;
             }
-
             50% {
                 opacity: 0;
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 650px) {
+            .stats-grid, .countdown-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .funny-message {
+                min-height: auto;
             }
         }
     </style>
@@ -298,7 +314,6 @@
             <span id="typing-text"></span><span class="cursor"></span>
         </div>
 
-        <!-- Countdown -->
         <div class="countdown-container">
 
             <div class="countdown-title">
@@ -358,25 +373,13 @@
         ];
 
         function createPhrase() {
-
             let el = document.createElement('div');
-
             el.className = 'bg-phrase';
-
-            el.innerText =
-                funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-
+            el.innerText = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
             el.style.left = `${Math.random() * 90}vw`;
-
-            el.style.fontSize =
-                `${Math.random() * 0.6 + 0.8}rem`;
-
-            el.style.opacity =
-                Math.random() * 0.5 + 0.3;
-
-            const duration =
-                Math.random() * 15 + 10;
-
+            el.style.fontSize = `${Math.random() * 0.6 + 0.8}rem`;
+            el.style.opacity = Math.random() * 0.5 + 0.3;
+            const duration = Math.random() * 15 + 10;
             el.style.animationDuration = `${duration}s`;
 
             bgContainer.appendChild(el);
@@ -393,38 +396,21 @@
         setInterval(createPhrase, 2000);
 
         // Stats count animation
-        const statNumbers =
-            document.querySelectorAll('.stat-number');
+        const statNumbers = document.querySelectorAll('.stat-number');
 
         statNumbers.forEach(stat => {
-
-            const target =
-                +stat.getAttribute('data-target');
-
+            const target = +stat.getAttribute('data-target');
             const duration = 2500;
-
-            const increment =
-                target / (duration / 16);
-
+            const increment = target / (duration / 16);
             let current = 0;
 
             const updateCounter = () => {
-
                 current += increment;
-
                 if (current < target) {
-
-                    stat.innerText =
-                        Math.ceil(current) +
-                        (target >= 10 ? '+' : '');
-
+                    stat.innerText = Math.ceil(current) + (target >= 10 ? '+' : '');
                     requestAnimationFrame(updateCounter);
-
                 } else {
-
-                    stat.innerText =
-                        target +
-                        (target >= 10 ? '+' : '');
+                    stat.innerText = target + (target >= 10 ? '+' : '');
                 }
             };
 
@@ -435,20 +421,13 @@
         const messageText =
             "Operation 'Pass The Lab' was a massive success. The GNIT servers are tired, your Alt+Tab fingers need rest, and honestly, you all need to go touch some grass. The underground cheat code vault is officially locked. May your compiler errors be zero and your summer break be epic!";
 
-        const typingElement =
-            document.getElementById('typing-text');
-
+        const typingElement = document.getElementById('typing-text');
         let charIndex = 0;
 
         function typeMessage() {
-
             if (charIndex < messageText.length) {
-
-                typingElement.innerHTML +=
-                    messageText.charAt(charIndex);
-
+                typingElement.innerHTML += messageText.charAt(charIndex);
                 charIndex++;
-
                 setTimeout(typeMessage, 35);
             }
         }
@@ -456,48 +435,31 @@
         setTimeout(typeMessage, 1200);
 
         // Countdown Timer
-        const targetDate =
-            new Date("June 6, 2026 00:00:00").getTime();
+        const targetDate = new Date("June 6, 2026 00:00:00").getTime();
 
         function updateCountdown() {
-
             const now = new Date().getTime();
-
             const diff = targetDate - now;
 
             if (diff <= 0) {
-
                 document.getElementById("hours").innerText = "00";
                 document.getElementById("minutes").innerText = "00";
                 document.getElementById("seconds").innerText = "00";
-
                 return;
             }
 
-            const totalHours =
-                Math.floor(diff / (1000 * 60 * 60));
+            const totalHours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
 
-            const minutes =
-                Math.floor((diff / (1000 * 60)) % 60);
-
-            const seconds =
-                Math.floor((diff / 1000) % 60);
-
-            document.getElementById("hours").innerText =
-                String(totalHours).padStart(2, '0');
-
-            document.getElementById("minutes").innerText =
-                String(minutes).padStart(2, '0');
-
-            document.getElementById("seconds").innerText =
-                String(seconds).padStart(2, '0');
+            document.getElementById("hours").innerText = String(totalHours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
         }
 
         updateCountdown();
-
         setInterval(updateCountdown, 1000);
 
     </script>
-
 </body>
 </html>
