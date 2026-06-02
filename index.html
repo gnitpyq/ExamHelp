@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- <script>
-const redirectUrl = "https://drive.google.com/drive/folders/1BQ4TH_TGvBRMiKNYA8v5ZlEkZOQobP1Q?usp=drive_link";
-const targetDate = new Date("June 3, 2026 00:00:00").getTime();
-
-if (Date.now() >= targetDate) {
-    location.replace(redirectUrl);
-}
-</script> -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>rebrand.ly/examhelp - Coming Soon</title>
+
+    <script>
+        // CHANGE THIS TO YOUR DESTINATION
+        const redirectUrl = "https://drive.google.com/drive/folders/1BQ4TH_TGvBRMiKNYA8v5ZlEkZOQobP1Q?usp=drive_link";
+        // CHANGE THIS TO YOUR REOPEN DATE
+        const targetDate = new Date("June 3, 2026 00:00:00").getTime();
+
+        // If timer already expired, redirect immediately before rendering the page
+        if (Date.now() >= targetDate) {
+            window.location.replace(redirectUrl);
+        }
+    </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&display=swap');
@@ -35,12 +39,12 @@ if (Date.now() >= targetDate) {
             background-color: var(--bg-color);
             color: var(--term-green);
             font-family: 'Fira Code', monospace;
-            height: 100vh; /* Strictly lock to screen height */
+            height: 100vh;
             width: 100vw;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* STRICTLY NO PAGE SCROLLING */
+            overflow: hidden;
             position: relative;
             padding: 1rem;
         }
@@ -94,7 +98,7 @@ if (Date.now() >= targetDate) {
             z-index: 10;
             width: 100%;
             max-width: 850px;
-            max-height: calc(100vh - 2rem); /* Never exceed screen height minus padding */
+            max-height: calc(100vh - 2rem);
             background: rgba(22, 27, 34, 0.9);
             border: 1px solid #30363d;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(46, 160, 67, 0.1);
@@ -115,7 +119,7 @@ if (Date.now() >= targetDate) {
             align-items: center;
             font-weight: 400;
             font-size: 0.9rem;
-            flex-shrink: 0; /* Header never shrinks */
+            flex-shrink: 0;
         }
 
         .header-buttons {
@@ -135,15 +139,10 @@ if (Date.now() >= targetDate) {
 
         /* Terminal Body Content */
         .terminal-body {
-            /* Dynamic padding: smaller on short screens, larger on big screens */
             padding: clamp(1.2rem, 3vh, 2.5rem); 
             position: relative;
-            flex: 1; /* Take up remaining space */
-            
-            /* If screen is incredibly small (mobile), scroll INSIDE the terminal gracefully */
+            flex: 1; 
             overflow-y: auto; 
-            
-            /* Hide scrollbars for sleek hacker look */
             scrollbar-width: none; /* Firefox */
             -ms-overflow-style: none; /* IE/Edge */
         }
@@ -446,47 +445,31 @@ if (Date.now() >= targetDate) {
         setTimeout(typeMessage, 1500);
 
         // ===============================
-// COUNTDOWN + AUTO REDIRECT
-// ===============================
+        // LIVE COUNTDOWN UPDATER
+        // ===============================
+        // targetDate and redirectUrl are defined in the <head>
 
-// CHANGE THIS TO YOUR DESTINATION
-const redirectUrl = "https://drive.google.com/drive/folders/1BQ4TH_TGvBRMiKNYA8v5ZlEkZOQobP1Q?usp=drive_link";
+        function updateCountdown() {
+            const now = Date.now();
+            const diff = targetDate - now;
 
-// CHANGE THIS TO YOUR REOPEN DATE
-const targetDate = new Date("June 3, 2026 00:00:00").getTime();
+            // Timer finished while user is sitting on the page -> instant redirect
+            if (diff <= 0) {
+                window.location.replace(redirectUrl);
+                return;
+            }
 
-// If timer already expired, redirect immediately
-if (Date.now() >= targetDate) {
-    window.location.replace(redirectUrl);
-}
+            const totalHours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
 
-function updateCountdown() {
+            document.getElementById("hours").textContent = String(totalHours).padStart(2, "0");
+            document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+            document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+        }
 
-    const now = Date.now();
-    const diff = targetDate - now;
-
-    // Timer finished -> instant redirect
-    if (diff <= 0) {
-        window.location.replace(redirectUrl);
-        return;
-    }
-
-    const totalHours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("hours").textContent =
-        String(totalHours).padStart(2, "0");
-
-    document.getElementById("minutes").textContent =
-        String(minutes).padStart(2, "0");
-
-    document.getElementById("seconds").textContent =
-        String(seconds).padStart(2, "0");
-}
-
-updateCountdown();
-setInterval(updateCountdown, 1000);
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
