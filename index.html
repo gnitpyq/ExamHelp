@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SECURITY ALERT - Under Attack</title>
+    <title>rebrand.ly/examhelp - Coming Soon</title>
+
+    <script>
+        // CHANGE THIS TO YOUR DESTINATION
+        const redirectUrl = "https://drive.google.com/drive/folders/1BQ4TH_TGvBRMiKNYA8v5ZlEkZOQobP1Q?usp=drive_link";
+        // CHANGE THIS TO YOUR REOPEN DATE
+        const targetDate = new Date("June 3, 2026 10:00:00").getTime();
+
+        // If timer already expired, redirect immediately before rendering the page
+        if (Date.now() >= targetDate) {
+            window.location.replace(redirectUrl);
+        }
+    </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&display=swap');
@@ -15,7 +27,6 @@
             --term-red: #ff7b72;
             --text-main: #e6edf3;
             --scanline: rgba(57, 211, 83, 0.04);
-            --term-yellow: #d29922;
         }
 
         * {
@@ -73,12 +84,12 @@
         }
 
         .bg-log {
-            color: var(--term-red); /* Changed to red for attack theme */
+            color: var(--term-dark-green);
             font-size: 0.85rem;
             margin-bottom: 4px;
             opacity: 1;
             transition: opacity 2s ease-out;
-            text-shadow: 0 0 5px rgba(255, 123, 114, 0.4);
+            text-shadow: 0 0 5px rgba(46, 160, 67, 0.4);
             position: absolute;
         }
 
@@ -89,8 +100,8 @@
             max-width: 850px;
             max-height: calc(100vh - 2rem);
             background: rgba(22, 27, 34, 0.9);
-            border: 1px solid var(--term-red); /* Red border indicating alert */
-            box-shadow: 0 0 40px rgba(255, 123, 114, 0.15), inset 0 0 15px rgba(255, 123, 114, 0.05);
+            border: 1px solid #30363d;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(46, 160, 67, 0.1);
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(8px);
@@ -101,12 +112,12 @@
         /* Terminal Header */
         .terminal-header {
             background: #21262d;
-            border-bottom: 1px solid var(--term-red);
-            color: var(--term-red);
+            border-bottom: 1px solid #30363d;
+            color: var(--text-main);
             padding: 0.6rem 1rem;
             display: flex;
             align-items: center;
-            font-weight: 600;
+            font-weight: 400;
             font-size: 0.9rem;
             flex-shrink: 0;
         }
@@ -132,27 +143,27 @@
             position: relative;
             flex: 1; 
             overflow-y: auto; 
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
         }
         
         .terminal-body::-webkit-scrollbar {
-            display: none;
+            display: none; /* Chrome/Safari */
         }
 
         /* Glitch Title */
         h1 {
             font-size: clamp(1.2rem, 3vw, 2.2rem);
-            color: var(--term-red);
-            text-shadow: 0 0 10px rgba(255, 123, 114, 0.5);
+            color: var(--term-green);
+            text-shadow: 0 0 10px rgba(57, 211, 83, 0.5);
             letter-spacing: 1px;
             margin-bottom: clamp(0.5rem, 1vh, 0.8rem);
         }
 
         .status {
             display: inline-block;
-            color: #0d1117;
-            background: var(--term-red);
+            color: var(--term-red);
+            background: rgba(255, 123, 114, 0.1);
             border: 1px solid var(--term-red);
             padding: 0.3rem 0.8rem;
             font-size: 0.85rem;
@@ -160,16 +171,16 @@
             border-radius: 4px;
             margin-bottom: clamp(1rem, 3vh, 2rem);
             text-transform: uppercase;
-            box-shadow: 0 0 20px rgba(255, 123, 114, 0.6);
-            animation: pulse-red 1.5s infinite;
+            box-shadow: 0 0 15px rgba(255, 123, 114, 0.2);
+            animation: blink-red 2s infinite;
         }
 
-        @keyframes pulse-red {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(0.98); }
+        @keyframes blink-red {
+            0%, 100% { opacity: 1; border-color: var(--term-red); }
+            50% { opacity: 0.5; border-color: rgba(255, 123, 114, 0.3); }
         }
 
-        /* Security Stats Grid */
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -183,19 +194,14 @@
         .stat-card {
             text-align: left;
             padding-left: 1rem;
-            border-left: 3px solid var(--term-red);
+            border-left: 3px solid var(--term-dark-green);
         }
 
         .stat-number {
             font-size: clamp(1.8rem, 4vw, 2.2rem);
             font-weight: 600;
-            color: var(--term-yellow);
-            text-shadow: 0 0 8px rgba(210, 153, 34, 0.4);
-        }
-        
-        .stat-number.critical {
-            color: var(--term-red);
-            text-shadow: 0 0 8px rgba(255, 123, 114, 0.4);
+            color: var(--term-green);
+            text-shadow: 0 0 8px rgba(57, 211, 83, 0.4);
         }
 
         .stat-label {
@@ -209,27 +215,17 @@
         /* Typing Area */
         .message-box {
             font-size: clamp(0.85rem, 1.5vw, 1rem);
-            line-height: 1.6;
+            line-height: 1.5;
             margin-bottom: clamp(1.2rem, 3vh, 2.5rem);
-            min-height: 120px;
+            min-height: 70px;
             color: var(--text-main);
-        }
-
-        .highlight-red {
-            color: var(--term-red);
-            font-weight: 600;
-        }
-
-        .highlight-yellow {
-            color: var(--term-yellow);
-            font-weight: 600;
         }
 
         .cursor {
             display: inline-block;
             width: 8px;
             height: 1rem;
-            background-color: var(--term-red);
+            background-color: var(--term-green);
             vertical-align: middle;
             animation: blink-cursor 1s step-end infinite;
             margin-left: 4px;
@@ -240,29 +236,70 @@
             50% { opacity: 0; }
         }
 
-        /* System Footer - Auth Request */
-        .auth-prompt {
-            background: rgba(255, 123, 114, 0.05);
-            border: 1px solid rgba(255, 123, 114, 0.3);
+        /* Countdown */
+        .countdown-wrapper {
+            background: rgba(57, 211, 83, 0.05);
+            border: 1px solid var(--term-dark-green);
             border-radius: 6px;
             padding: clamp(1rem, 2vh, 1.5rem);
-            margin-top: clamp(1rem, 3vh, 2.5rem);
-            font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+            position: relative;
+        }
+
+        .countdown-wrapper::before {
+            content: "[ VAULT REOPENS IN  ]";
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: rgba(22, 27, 34, 1);
+            padding: 0 10px;
+            font-size: 0.8rem;
+            color: var(--term-green);
+            font-weight: 600;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .time-box {
+            text-align: center;
+        }
+
+        .time-box span {
+            display: block;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: 600;
+            color: var(--term-green);
+            text-shadow: 0 0 10px rgba(57, 211, 83, 0.4);
+        }
+
+        .time-box small {
             color: #8b949e;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .auth-prompt div {
-            margin-bottom: 8px;
+        /* System Footer */
+        .sys-log {
+            margin-top: clamp(1rem, 3vh, 2.5rem);
+            font-size: clamp(0.7rem, 1vw, 0.85rem);
+            color: #8b949e;
+            line-height: 1.5;
         }
 
-        .auth-prompt span {
-            color: var(--term-red);
+        .sys-log span {
+            color: var(--term-green);
+            font-weight: 600;
         }
 
         @media (max-width: 600px) {
             .stats-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .time-box span { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -278,58 +315,76 @@
                 <div class="btn"></div>
                 <div class="btn"></div>
             </div>
-            root@rebrand.ly:~/security-alert
+            root@rebrand.ly:~/examhelp
         </div>
 
         <div class="terminal-body">
             
-            <div class="status">⚠️ CRITICAL: UNDER ATTACK MODE ACTIVE</div>
+            <div class="status">[ ERR_CONNECTION_REFUSED: VAULT_OFFLINE ]</div>
 
-            <h1>> breach_detected.sh</h1>
+            <h1>> rebrand.ly/examhelp.sh</h1>
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number critical" data-target="403">0</div>
-                    <div class="stat-label">Intrusions Blocked</div>
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">Desperation Logs</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" data-target="12">0</div>
-                    <div class="stat-label">Firewall Integrity %</div>
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-label">Grades Patched</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number critical" data-target="3">0</div>
-                    <div class="stat-label">Active Threats</div>
+                    <div class="stat-number" data-target="4">0</div>
+                    <div class="stat-label">Labs Bypassed</div>
                 </div>
             </div>
 
             <div class="message-box">
-                <span id="typing-text"></span>
+                <span id="typing-text"></span><span class="cursor"></span>
             </div>
 
-            <div class="auth-prompt">
-                <div>[SYS] Connection blackholed to prevent data exfiltration.</div>
-                <div>[SYS] <span class="highlight-yellow">Action Required:</span> Admin authentication needed to override lockdown.</div><br>
-                <div>root@sec-server:~# await admin_auth <span class="cursor"></span></div>
+            <div class="countdown-wrapper">
+                <div class="countdown-grid">
+                    <div class="time-box">
+                        <span id="hours">00</span>
+                        <small>Hours</small>
+                    </div>
+                    <div class="time-box">
+                        <span id="minutes">00</span>
+                        <small>Minutes</small>
+                    </div>
+                    <div class="time-box">
+                        <span id="seconds">00</span>
+                        <small>Seconds</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sys-log">
+                [SYS] Terminating process... <br>
+                [SYS] Target file locked: <span>rebrand.ly/examhelp</span> <br>
+                [SYS] Have a good break.
             </div>
 
         </div>
     </div>
 
     <script>
-        // Threat/Attack Background Terminal Logs
+        // Background Terminal Logs
         const bgContainer = document.getElementById('bg-container');
         const logPhrases = [
-            "WARN: Unrecognized payload dropped at port 443",
-            "ERR: Brute force attempt blocked (IP: 192.168.*.*)",
-            "CRITICAL: Tracing malicious packet origin...",
-            "DDoS Mitigation: Rerouting traffic...",
-            "Checking admin node visibility: EXPOSED",
-            "Encrypting master logs...",
-            "SQL Injection attempt detected in /login",
-            "Isolating compromised sector 7G",
-            "WARN: Geo-location masking failed.",
-            "Closing all outbound ports immediately.",
-            "Ping anomaly detected: +4000ms ping spike"
+            "[INFO] Connecting to GNIT proxy...",
+            "[WARN] Traffic spike detected on port 8080",
+            "[ERR] java.lang.NullPointerException at finals.java",
+            "chmod -R 777 /var/answers/",
+            "sudo rm -rf /stress",
+            "[OK] Payload 'copy_paste.sh' executed",
+            "ping 127.0.0.1 -c 4",
+            "[WARN] Admin logged in. Hiding directories...",
+            "Decrypting module_3_notes.pdf...",
+            "0x00000008: Memory segmentation fault",
+            "SSH connection established: student@lab",
+            "grep -r 'pass' ./exam_results/"
         ];
 
         function createBgLog() {
@@ -348,7 +403,7 @@
             }, 1500);
         }
 
-        setInterval(createBgLog, 250); // Faster logs for emergency feel
+        setInterval(createBgLog, 300);
 
         // Stats Matrix Count Animation
         const statNumbers = document.querySelectorAll('.stat-number');
@@ -362,66 +417,59 @@
             const updateCounter = () => {
                 current += increment;
                 if (current < target) {
-                    // Random glitching for effect
                     const isGlitch = Math.random() > 0.8;
-                    stat.innerText = isGlitch ? Math.floor(Math.random() * 999) : Math.ceil(current);
+                    stat.innerText = isGlitch ? Math.floor(Math.random() * 99) : Math.ceil(current);
                     requestAnimationFrame(updateCounter);
                 } else {
-                    stat.innerText = target + (target > 100 ? '+' : '');
+                    stat.innerText = target + (target >= 10 ? '+' : '');
                 }
             };
 
-            setTimeout(updateCounter, 500);
+            setTimeout(updateCounter, 800);
         });
 
-        // Typing animation with HTML formatting built in
-        // Using an array of objects to handle colored text injection
-        const scriptSequence = [
-            { text: "INCIDENT REPORT: ", color: "" },
-            { text: "Unauthorized access attempt logged.\n\n", color: "highlight-yellow" },
-            { text: "WARNING: ", color: "highlight-red" },
-            { text: "Website owner IP address has potentially been leaked to hostile external nodes. The owner is currently at elevated risk of targeted network attacks.\n\n", color: "" },
-            { text: "To protect server assets, the network has automatically shifted into ", color: "" },
-            { text: "UNDER ATTACK MODE", color: "highlight-red" },
-            { text: ". All external traffic is currently restricted.\n\n", color: "" },
-            { text: "System requires direct admin permission and security verification to reopen.", color: "highlight-yellow" }
-        ];
-
+        // Typing animation
+        const messageText = "Operation 'Pass The Lab' executed successfully. Target servers are strained. The underground script vault is officially encrypted and isolated from the mainframe. Rest your fingers. End of line.";
+        
         const typingElement = document.getElementById('typing-text');
-        let sequenceIndex = 0;
         let charIndex = 0;
 
         function typeMessage() {
-            if (sequenceIndex < scriptSequence.length) {
-                const currentSegment = scriptSequence[sequenceIndex];
-                
-                if (charIndex === 0 && currentSegment.color !== "") {
-                    // Start a new span for colored text
-                    typingElement.innerHTML += `<span class="${currentSegment.color}">`;
-                }
-
-                if (charIndex < currentSegment.text.length) {
-                    // Handle newlines
-                    if (currentSegment.text.charAt(charIndex) === '\n') {
-                        typingElement.innerHTML += '<br>';
-                    } else {
-                        typingElement.innerHTML += currentSegment.text.charAt(charIndex);
-                    }
-                    charIndex++;
-                    setTimeout(typeMessage, 15 + Math.random() * 30); // Fast typing speed
-                } else {
-                    // Close the span and move to next segment
-                    if (currentSegment.color !== "") {
-                        typingElement.innerHTML += `</span>`;
-                    }
-                    sequenceIndex++;
-                    charIndex = 0;
-                    setTimeout(typeMessage, 50);
-                }
+            if (charIndex < messageText.length) {
+                typingElement.innerHTML += messageText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeMessage, 30 + Math.random() * 40); 
             }
         }
 
-        setTimeout(typeMessage, 1000);
+        setTimeout(typeMessage, 1500);
+
+        // ===============================
+        // LIVE COUNTDOWN UPDATER
+        // ===============================
+        // targetDate and redirectUrl are defined in the <head>
+
+        function updateCountdown() {
+            const now = Date.now();
+            const diff = targetDate - now;
+
+            // Timer finished while user is sitting on the page -> instant redirect
+            if (diff <= 0) {
+                window.location.replace(redirectUrl);
+                return;
+            }
+
+            const totalHours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById("hours").textContent = String(totalHours).padStart(2, "0");
+            document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+            document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
