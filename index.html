@@ -42,17 +42,19 @@
         // Fetch true time from the internet to defeat local OS clock changes
         async function syncTrueTime() {
             try {
-                const response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Kolkata');
+                // Swapped to TimeAPI.io which is less likely to be blocked by firewalls
+                const response = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Asia/Kolkata');
                 const data = await response.json();
                 
-                const trueInternetTime = new Date(data.datetime).getTime();
+                // Note: TimeAPI uses 'dateTime' (capital T) instead of 'datetime'
+                const trueInternetTime = new Date(data.dateTime).getTime();
                 const fakeLocalTime = Date.now();
                 
                 // Calculate the exact difference between their computer clock and reality
                 timeOffset = trueInternetTime - fakeLocalTime;
             } catch (error) {
                 console.error("[SYS] Connection to time server blocked. Using local fallback.");
-                // If they block the API request, it falls back to local time so the page doesn't break
+                // If they block this API request too, it falls back to local time
             } finally {
                 isTimeSynced = true;
                 executeSecurityCheck();
