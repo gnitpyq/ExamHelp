@@ -61,7 +61,7 @@
         function checkStatus() {
             const now = getRealTime();
             // UNCOMMENT NEXT LINE TO BYPASS TIMER FOR TESTING:
-            // return "OPEN";
+             return "OPEN";
 
             if (now >= finalReopenDate) return "OPEN";
             for (let i = 0; i < schedule.length; i++) {
