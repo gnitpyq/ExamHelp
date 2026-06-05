@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rebrand.ly/examkey - VAULT ACCESS</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-color: #0d1117; 
+            --term-green: #39d353; 
+            --term-dark-green: #2ea043;
+            --term-red: #ff7b72;
+            --text-main: #e6edf3;
+            --scanline: rgba(57, 211, 83, 0.04);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--term-green);
+            font-family: 'Fira Code', monospace;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            padding: 1rem;
+        }
+
+        /* CRT Scanlines */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, var(--scanline) 50%, var(--scanline));
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .terminal {
+            z-index: 10;
+            width: 100%; max-width: 900px; height: 85vh;
+            background: rgba(22, 27, 34, 0.9);
+            border: 1px solid #30363d;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(46, 160, 67, 0.1);
+            display: flex; flex-direction: column;
+            backdrop-filter: blur(8px);
+            border-radius: 8px; overflow: hidden;
+        }
+
+        .terminal-header {
+            background: #21262d; border-bottom: 1px solid #30363d;
+            color: var(--text-main); padding: 0.6rem 1rem;
+            display: flex; align-items: center; font-size: 0.9rem;
+        }
+
+        .terminal-body {
+            padding: 2rem; flex: 1; overflow-y: auto;
+            scrollbar-width: thin; scrollbar-color: var(--term-dark-green) transparent;
+        }
+
+        h1 {
+            font-size: 1.5rem; color: var(--term-green);
+            text-shadow: 0 0 10px rgba(57, 211, 83, 0.5);
+            margin-bottom: 1.5rem;
+        }
+
+        .status {
+            display: inline-block; color: var(--term-green);
+            background: rgba(57, 211, 83, 0.1); border: 1px solid var(--term-green);
+            padding: 0.3rem 0.8rem; font-size: 0.85rem; font-weight: 600;
+            border-radius: 4px; margin-bottom: 1rem;
+        }
+
+        /* File Grid System */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .file-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #30363d; border-radius: 6px;
+            padding: 1rem; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .file-card:hover {
+            background: rgba(57, 211, 83, 0.1);
+            border-color: var(--term-green);
+            transform: translateY(-2px);
+        }
+
+        .file-icon {
+            font-size: 1.5rem; color: var(--term-dark-green);
+        }
+
+        .file-name {
+            font-size: 0.85rem; color: var(--text-main);
+            word-break: break-all;
+        }
+
+        .loader {
+            color: var(--term-green); animation: blink 1s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* =========================================
+           UBUNTU GEDIT MODAL STYLES
+           ========================================= */
+        .modal-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 200; display: none;
+            justify-content: center; align-items: center;
+        }
+
+        .gedit-window {
+            width: 80%; max-width: 800px; height: 75vh;
+            background: #1e1e1e; border-radius: 8px 8px 0 0;
+            display: flex; flex-direction: column;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            overflow: hidden;
+            animation: window-pop 0.2s ease-out;
+        }
+
+        @keyframes window-pop {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Ubuntu Ambiance Theme Header */
+        .gedit-header {
+            background: linear-gradient(to bottom, #4d4c47, #3b3a36);
+            height: 38px; display: flex; align-items: center;
+            padding: 0 10px; border-bottom: 1px solid #222;
+        }
+
+        .window-controls { display: flex; gap: 6px; margin-right: 15px; }
+        .win-btn { width: 14px; height: 14px; border-radius: 50%; cursor: pointer; }
+        .btn-close { background: #df4a16; box-shadow: inset 0 1px 2px rgba(255,255,255,0.3); } /* Ubuntu Orange */
+        .btn-min { background: #5c5a56; }
+        .btn-max { background: #5c5a56; }
+
+        .gedit-title {
+            color: #dfdbd2; font-family: 'Ubuntu', sans-serif; font-size: 0.9rem;
+            flex: 1; text-align: center; margin-right: 60px; text-shadow: 0 1px 1px #000;
+        }
+
+        .gedit-body {
+            flex: 1; background: #2d2d2d; overflow: auto;
+            padding: 0; margin: 0;
+        }
+
+        .gedit-body pre {
+            margin: 0 !important; border-radius: 0 !important;
+            min-height: 100%; background: #2d2d2d !important;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal">
+        <div class="terminal-header">
+            root@rebrand.ly:~/examkey/vault/connected
+        </div>
+        <div class="terminal-body">
+            <div class="status">[ AUTH_SUCCESS: VAULT_ONLINE ]</div>
+            <h1>> ls -la /var/answers/</h1>
+            
+            <div id="loading" class="loader">> Fetching encrypted payloads...</div>
+            <div id="file-grid" class="file-grid"></div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal-overlay">
+        <div class="gedit-window">
+            <div class="gedit-header">
+                <div class="window-controls">
+                    <div class="win-btn btn-close" onclick="closeModal()"></div>
+                    <div class="win-btn btn-min" onclick="closeModal()"></div>
+                    <div class="win-btn btn-max"></div>
+                </div>
+                <div class="gedit-title" id="gedit-title">document.txt - gedit</div>
+            </div>
+            <div class="gedit-body">
+                <pre><code id="gedit-code" class="language-none">Loading payload data...</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const API_KEY = 'AIzaSyArpsBKtIAdQugDLQewcJEF-iJiKLjlwgE'; 
+        const FOLDER_ID = '1BQ4TH_TGvBRMiKNYA8v5ZlEkZOQobP1Q';
+
+        // Basic Security Check: Bounce back to index if they bypass the timer
+        // You can update finalReopenDate to match your main page
+        const finalReopenDate = new Date("November 16, 2026 00:00:00 GMT+0530").getTime();
+        if (Date.now() < finalReopenDate) {
+            // Note: Add your specific schedule array logic here if you want partial open windows
+            // window.location.replace("index.html"); 
+        }
+
+        // ==========================================
+        // DRIVE API LOGIC
+        // ==========================================
+        async function fetchFiles() {
+            const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+trashed=false&fields=files(id,name,mimeType)&key=${API_KEY}`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                document.getElementById('loading').style.display = 'none';
+                
+                if (data.files && data.files.length > 0) {
+                    renderFiles(data.files);
+                } else {
+                    document.getElementById('file-grid').innerHTML = '<div style="color:var(--term-red)">> Directory is empty.</div>';
+                }
+            } catch (error) {
+                document.getElementById('loading').innerHTML = '<span style="color:var(--term-red)">[ERR] Connection to mainframe failed. Check API Keys.</span>';
+                console.error(error);
+            }
+        }
+
+        function renderFiles(files) {
+            const grid = document.getElementById('file-grid');
+            grid.innerHTML = '';
+
+            files.forEach(file => {
+                const card = document.createElement('div');
+                card.className = 'file-card';
+                
+                let icon = '📄';
+                if (file.mimeType.includes('folder')) icon = '📁';
+                else if (file.name.endsWith('.java')) icon = '☕';
+                else if (file.name.endsWith('.sh')) icon = '🐚';
+                else if (file.name.endsWith('.pdf')) icon = '📕';
+
+                card.innerHTML = `
+                    <div class="file-icon">${icon}</div>
+                    <div class="file-name">${file.name}</div>
+                `;
+
+                card.onclick = () => handleFileClick(file);
+                grid.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // GEDIT PREVIEWER LOGIC
+        // ==========================================
+        async function handleFileClick(file) {
+            // If it's a folder, you'd need logic to navigate into it.
+            // For now, let's handle text/code file previews.
+            const supportedTypes = ['text/plain', 'text/x-java-source', 'application/x-sh'];
+            
+            if (file.mimeType.includes('folder') || file.name.endsWith('.pdf')) {
+                // For non-text files, open the standard Drive viewer in a new tab
+                window.open(`https://drive.google.com/file/d/${file.id}/view`, '_blank');
+                return;
+            }
+
+            openModal(file.name);
+
+            // Fetch the actual text content of the file
+            const url = `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media&key=${API_KEY}`;
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                
+                const codeBlock = document.getElementById('gedit-code');
+                codeBlock.textContent = text;
+                
+                // Determine language for Prism JS highlighting
+                codeBlock.className = ''; 
+                if (file.name.endsWith('.java')) codeBlock.classList.add('language-java');
+                else if (file.name.endsWith('.sh')) codeBlock.classList.add('language-bash');
+                else codeBlock.classList.add('language-none');
+
+                // Trigger Syntax Highlighting
+                Prism.highlightElement(codeBlock);
+
+            } catch (error) {
+                document.getElementById('gedit-code').textContent = "Error loading payload decryption...";
+            }
+        }
+
+        function openModal(filename) {
+            document.getElementById('gedit-title').innerText = `${filename} - gedit`;
+            document.getElementById('gedit-code').textContent = "Loading payload data...";
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Close modal if clicking outside the window
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Initialize
+        fetchFiles();
+    </script>
+</body>
+</html>
