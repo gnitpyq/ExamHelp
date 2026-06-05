@@ -237,7 +237,7 @@
 
         // Directory History Stack
         let currentFolderId = ROOT_FOLDER_ID;
-        let folderPath = [{ id: ROOT_FOLDER_ID, name: '/var/answers' }];
+        let folderPath = [{ id: ROOT_FOLDER_ID, name: '/answers' }];
 
         // RAM Cache for weak networks (Instant re-loads)
         const vaultCache = {
@@ -284,7 +284,7 @@
         }
 
         function updateTerminalPath() {
-            let pathString = folderPath.map(f => f.name).join('/').replace('//var/answers', '/var/answers');
+            let pathString = folderPath.map(f => f.name).join('/').replace('//answers', '/answers');
             let headerHtml = `> ls -la ${pathString}/`;
             
             if (folderPath.length > 1) {
