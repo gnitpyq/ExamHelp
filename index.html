@@ -137,7 +137,7 @@
         function checkStatus() {
 
             const now = getRealTime();
-            // return "OPEN";
+             return "OPEN";
 
             if (now >= finalReopenDate) return "OPEN";
 
@@ -154,26 +154,15 @@
 
 
         function executeSecurityCheck() {
-
-            if (checkStatus() === "OPEN") {
-
-                window.location.replace(redirectUrl);
-
-            } else {
-
-                // If vault is locked, reveal the UI
-
-                document.body.style.opacity = "1";
-
-                // Start the live countdown loop only after time is verified
-
-                updateCountdown();
-
-                setInterval(updateCountdown, 1000);
-
-            }
-
-        }
+    if (checkStatus() === "OPEN") {
+        // Redirect to your custom vault UI
+        window.location.replace("vault.html");
+    } else {
+        document.body.style.opacity = "1";
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    }
+}
 
 
 
