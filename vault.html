@@ -201,26 +201,29 @@
         </div>
     </div>
 
-    <script>
-        // ==========================================
-        // CONFIGURATION
-        // ==========================================
+  <script>
         const API_KEY = 'AIzaSyArpsBKtIAdQugDLQewcJEF-iJiKLjlwgE'; 
-        const FOLDER_ID = '1BQ4TH_TGvBRMiKNYA8v5ZlEkZOQobP1Q';
+        const ROOT_FOLDER_ID = '1BQ4TH_TGvBRMiKNYA8v5ZlEkZOQobP1Q';
 
-        // Basic Security Check: Bounce back to index if they bypass the timer
-        // You can update finalReopenDate to match your main page
+        // Directory History Stack
+        let currentFolderId = ROOT_FOLDER_ID;
+        let folderPath = [{ id: ROOT_FOLDER_ID, name: '/var/answers' }];
+
+        // Basic Security Check
         const finalReopenDate = new Date("November 16, 2026 00:00:00 GMT+0530").getTime();
         if (Date.now() < finalReopenDate) {
-            // Note: Add your specific schedule array logic here if you want partial open windows
             // window.location.replace("index.html"); 
         }
 
         // ==========================================
-        // DRIVE API LOGIC
+        // DRIVE API LOGIC (WITH FOLDER NAVIGATION)
         // ==========================================
-        async function fetchFiles() {
-            const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+trashed=false&fields=files(id,name,mimeType)&key=${API_KEY}`;
+        async function fetchFiles(folderId) {
+            // Show loading state and clear current files
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('file-grid').innerHTML = '';
+            
+            const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&fields=files(id,name,mimeType)&key=${API_KEY}`;
             
             try {
                 const response = await fetch(url);
@@ -239,9 +242,44 @@
             }
         }
 
+        function updateTerminalPath() {
+            // Build the visual path string
+            let pathString = folderPath.map(f => f.name).join('/').replace('//var/answers', '/var/answers');
+            
+            let headerHtml = `> ls -la ${pathString}/`;
+            
+            // Add a "Go Back" button if we are deep in a folder
+            if (folderPath.length > 1) {
+                headerHtml += ` <span style="cursor:pointer; color:var(--term-red); margin-left:15px; font-size: 0.8rem;" onclick="goBack()">[ cd .. ]</span>`;
+            }
+            
+            // Update the H1 element
+            document.querySelector('h1').innerHTML = headerHtml;
+        }
+
+        function goBack() {
+            if (folderPath.length > 1) {
+                folderPath.pop(); // Remove current folder from stack
+                const previousFolder = folderPath[folderPath.length - 1]; // Get parent folder
+                currentFolderId = previousFolder.id;
+                
+                updateTerminalPath();
+                fetchFiles(currentFolderId);
+            }
+        }
+
         function renderFiles(files) {
             const grid = document.getElementById('file-grid');
             grid.innerHTML = '';
+
+            // Sort files: Folders first, then regular files
+            files.sort((a, b) => {
+                const isAFolder = a.mimeType.includes('folder');
+                const isBFolder = b.mimeType.includes('folder');
+                if (isAFolder && !isBFolder) return -1;
+                if (!isAFolder && isBFolder) return 1;
+                return a.name.localeCompare(b.name);
+            });
 
             files.forEach(file => {
                 const card = document.createElement('div');
@@ -267,19 +305,24 @@
         // GEDIT PREVIEWER LOGIC
         // ==========================================
         async function handleFileClick(file) {
-            // If it's a folder, you'd need logic to navigate into it.
-            // For now, let's handle text/code file previews.
-            const supportedTypes = ['text/plain', 'text/x-java-source', 'application/x-sh'];
+            // 1. Handle Folder Navigation IN-APP
+            if (file.mimeType.includes('folder')) {
+                folderPath.push({ id: file.id, name: file.name });
+                currentFolderId = file.id;
+                updateTerminalPath();
+                fetchFiles(currentFolderId);
+                return;
+            }
             
-            if (file.mimeType.includes('folder') || file.name.endsWith('.pdf')) {
-                // For non-text files, open the standard Drive viewer in a new tab
+            // 2. Handle External Files (PDFs)
+            if (file.name.endsWith('.pdf')) {
                 window.open(`https://drive.google.com/file/d/${file.id}/view`, '_blank');
                 return;
             }
 
+            // 3. Handle Code/Text Files in Gedit Modal
             openModal(file.name);
 
-            // Fetch the actual text content of the file
             const url = `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media&key=${API_KEY}`;
             try {
                 const response = await fetch(url);
@@ -288,13 +331,11 @@
                 const codeBlock = document.getElementById('gedit-code');
                 codeBlock.textContent = text;
                 
-                // Determine language for Prism JS highlighting
                 codeBlock.className = ''; 
                 if (file.name.endsWith('.java')) codeBlock.classList.add('language-java');
                 else if (file.name.endsWith('.sh')) codeBlock.classList.add('language-bash');
                 else codeBlock.classList.add('language-none');
 
-                // Trigger Syntax Highlighting
                 Prism.highlightElement(codeBlock);
 
             } catch (error) {
@@ -312,13 +353,13 @@
             document.getElementById('modal').style.display = 'none';
         }
 
-        // Close modal if clicking outside the window
         document.getElementById('modal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
 
-        // Initialize
-        fetchFiles();
-    </script>
+        // Initialize App
+        updateTerminalPath();
+        fetchFiles(currentFolderId);
+  </script>
 </body>
 </html>
